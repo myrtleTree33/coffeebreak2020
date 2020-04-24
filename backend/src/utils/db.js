@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import { logger } from './logger';
 
 export const initDb = mongo_uri => {
