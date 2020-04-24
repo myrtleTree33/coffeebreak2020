@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkIfAuthenticated as checkAuthenticated } from '../utils/authUtils';
+import { checkIfAuthenticated } from '../utils/authUtils';
 
 const routes = Router();
 
@@ -10,8 +10,8 @@ routes.get('/', async (req, res) => {
   res.json({ message: 'Welcome to sample controller!' });
 });
 
-routes.get('/testlogin', checkAuthenticated, async (req, res) => {
-  return res.send(articles);
+routes.get('/testlogin', checkIfAuthenticated, async (req, res) => {
+  return res.send('hello world');
 });
 
 export default routes;
