@@ -1,4 +1,6 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+
 import { logger, loggingMiddleware } from './utils/logger';
 
 import sampleController from './controllers/sampleController';
@@ -14,6 +16,7 @@ initDb(MONGO_URI);
 
 // middleware
 app.use(loggingMiddleware());
+app.use(bodyParser.json());
 
 // controllers
 app.get('/', (req, res) => res.send('Hello World!'));
