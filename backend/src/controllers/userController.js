@@ -7,13 +7,16 @@ const routes = Router();
 const DUMMY_PHOTO_URL = 'http://dummy.io';
 
 /**
- * GET home page
+ * Gets the current signed-in user id
  */
 routes.get('/', checkIfAuthenticated, async (req, res) => {
   const { authId } = req;
   return res.json({ authId });
 });
 
+/**
+ * Creates a new user
+ */
 routes.post('/new', async (req, res) => {
   const { email, phoneNumber, password, firstName, lastName } = req.body;
 
