@@ -2,10 +2,13 @@ import express from 'express';
 import { logger, loggingMiddleware } from './utils/logger';
 
 import sampleController from './controllers/sampleController';
+import { initDb } from './utils/db';
 
-const { PORT } = process.env;
+const { PORT, MONGO_URI } = process.env;
 
 const app = express();
+
+initDb(MONGO_URI);
 
 // middleware
 app.use(loggingMiddleware());
