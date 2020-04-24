@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { firebaseService } from '../services/firebase-service';
+import { checkIfAuthenticated } from '../utils/authUtils';
 
 const routes = Router();
 
@@ -8,8 +9,9 @@ const DUMMY_PHOTO_URL = 'http://dummy.io';
 /**
  * GET home page
  */
-routes.get('/', async (req, res) => {
-  res.json({ message: 'Welcome to user controller!' });
+routes.get('/', checkIfAuthenticated, async (req, res) => {
+  const { authId } = req;
+  return res.json({ authId });
 });
 
 routes.post('/new', async (req, res) => {

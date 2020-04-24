@@ -1,3 +1,6 @@
+import { firebaseService } from '../services/firebase-service';
+import { logger } from './logger';
+
 const getAuthToken = (req, res, next) => {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
     req.authToken = req.headers.authorization.split(' ')[1];
@@ -11,7 +14,7 @@ export const checkIfAuthenticated = (req, res, next) => {
   getAuthToken(req, res, async () => {
     try {
       const { authToken } = req;
-      const userInfo = await admin.auth().verifyIdToken(authToken);
+      const userInfo = await firebaseService.auth().verifyIdToken(authToken);
       req.authId = userInfo.uid;
       return next();
     } catch (e) {
