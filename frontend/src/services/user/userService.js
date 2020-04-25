@@ -3,12 +3,25 @@ import firebaseService from '../firebase/firebaseService';
 
 // taken from https://dev.to/emeka/securing-your-express-node-js-api-with-firebase-auth-4b5f
 
-export const createUser = data => {
-  return axios.post('https://your-api-url/auth/signup', data).then(res => res.data);
-};
+const { REACT_APP_BACKEND_URL } = process.env;
 
-export const loginUser = async (email, password) =>
-  firebaseService.auth().signInWithEmailAndPassword(email, password);
+export const createUser = async data => {
+  const { email, phoneNumber, password, firstName, lastName, role } = data;
+  try {
+    const res = await axios.post(`${REACT_APP_BACKEND_URL}/user/new`, {
+      email,
+      phoneNumber,
+      role,
+      password,
+      firstName,
+      lastName
+    });
+
+    return Promise.resolve(res.data);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
 
 export const getUserBearerTokenRaw = async () => {
   const user = await firebaseService.auth().currentUser;
@@ -20,8 +33,11 @@ export const getUserBearerTokenRaw = async () => {
 
 export const getUserBearerToken = async () => {
   let token = window.localStorage.getItem('token');
-  if (!token) {
+  if (!token || token === 'null') {
     token = await getUserBearerTokenRaw();
+    if (!token) {
+      window.localStorage.removeItem('token');
+    }
     window.localStorage.setItem('token', token);
   }
 
@@ -29,3 +45,17 @@ export const getUserBearerToken = async () => {
 };
 
 export const isUserLoggedIn = async () => Boolean(await getUserBearerToken());
+
+export const loginUser = async (email, password) => {
+  try {
+    await firebaseService.auth().signInWithEmailAndPassword(email, password);
+    const token = await getUserBearerToken();
+    if (!token) {
+      return Promise.reject(new Error('Invalid auth credentials!'));
+    }
+  } catch (e) {
+    return Promise.reject(e);
+  }
+
+  return Promise.resolve();
+};

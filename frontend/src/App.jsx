@@ -4,12 +4,12 @@ import { Button } from 'antd';
 
 import logo from './logo.svg';
 import './App.css';
-import Marketplace from './components/marketplace/MarketplaceView';
+import Marketplace from './components/marketplace/Marketplace';
 import About from './components/about/AboutView';
 import Landing from './components/landing/Landing';
 import Signup from './components/signup/Signup';
-import Singin from './components/singin/Signin';
-import Forget from './components/forget/Forget';
+import Signin from './components/singin/Signin';
+import Forgot from './components/forget/Forgot';
 import Account from './components/account/Account';
 import { loginUser, isUserLoggedIn, getUserBearerToken } from './services/user/userService';
 import ProtectedRoute from './components/protectedroute/ProtectedRoute';
@@ -36,10 +36,12 @@ class App extends Component {
   render() {
     const { isAuthenticated, isLoading } = this.state;
 
+    console.log(isAuthenticated);
+
     return (
       <Router>
         <div>
-          <nav>
+          {/* <nav>
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -47,34 +49,24 @@ class App extends Component {
               <li>
                 <Link to="/about">About</Link>
               </li>
-              <li>
-                <Link to="/marketplace">Marketplace</Link>
-              </li>
             </ul>
-          </nav>
+          </nav> */}
 
           <Switch>
-            <Route exact path="/">
-              <Landing />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/signin">
-              <Singin />
-            </Route>
-            <Route path="/forget">
-              <Forget />
-            </Route>
-            <Route path="/account">
-              <Account />
-            </Route>
-            <Route path="/about">
-              <About />
-            </Route>
+            <Route exact path="/" component={Landing} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/signin" component={Signin} />
+            <Route path="/forgot" component={Forgot} />
+            <Route path="/about" component={About} />
             <ProtectedRoute
-              path="/marketplace"
+              path="/market"
               component={Marketplace}
+              isAuthenticated={isAuthenticated}
+              isLoading={isLoading}
+            />
+            <ProtectedRoute
+              path="/account"
+              component={Account}
               isAuthenticated={isAuthenticated}
               isLoading={isLoading}
             />

@@ -9,3 +9,21 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.vertical-center-parent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-bottom {
+  align-self: flex-end;
+}
+
+.full-height {
+  min-height: 100vh;
+}
+
+.content-spacing {
+  padding: 1.2rem;
+}

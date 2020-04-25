@@ -17,7 +17,9 @@ export const checkIfAuthenticated = (req, res, next) => {
     try {
       const { authToken } = req;
       const userInfo = await firebaseService.auth().verifyIdToken(authToken);
+
       req.authId = userInfo.uid;
+      req.role = userInfo.role;
       return next();
     } catch (e) {
       return res.status(401).send({ error: 'You are not authorized to make this request' });

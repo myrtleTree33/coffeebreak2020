@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { checkIfAuthenticated } from '../utils/authUtils';
+import firebaseService from '../services/firebase-service';
 
 // Payment controller
 
@@ -20,8 +21,8 @@ routes.get('/id/:therapistId', checkIfAuthenticated, async (req, res) => {
   });
 });
 
-routes.get('/search', checkIfAuthenticated, async (req, res) => {
-  const therapists = []; // TODO
+routes.get('/', checkIfAuthenticated, async (req, res) => {
+  const therapists = (await firebaseService.auth().listUsers()).users;
   res.json(therapists);
 });
 
