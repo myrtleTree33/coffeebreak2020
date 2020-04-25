@@ -13,7 +13,7 @@ import { initDb } from './utils/db';
 const { PORT, MONGO_URI } = process.env;
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'http://68.183.230.167:3000'],
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
