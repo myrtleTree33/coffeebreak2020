@@ -1,27 +1,27 @@
-import React from 'react';
-import { Card, List } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Card, List, Button } from 'antd';
+
+import { getTherapists } from '../../services/marketplace/maketplaceService';
 
 const Marketplace = () => {
-  const data = [
-    {
-      title: 'Mary Jane'
-    },
-    {
-      title: 'Title 2'
-    },
-    {
-      title: 'Title 3'
-    },
-    {
-      title: 'Title 4'
-    },
-    {
-      title: 'Title 5'
-    },
-    {
-      title: 'Title 6'
-    }
-  ];
+  const [therapists, setTherapists] = useState([]);
+  const [hasErrors, setErrors] = useState(false);
+
+  const history = useHistory();
+
+  const goBook = therapist => history.push('/book', therapist);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const therapistsRes = await getTherapists();
+        setTherapists(therapistsRes);
+      } catch (e) {
+        setErrors(true);
+      }
+    })();
+  });
 
   return (
     <div className="content-spacing">
@@ -36,10 +36,28 @@ const Marketplace = () => {
           xl: 6,
           xxl: 3
         }}
-        dataSource={data}
-        renderItem={item => (
+        dataSource={therapists}
+        renderItem={therapist => (
           <List.Item>
-            <Card title={item.title}>Card content</Card>
+            <Card
+              title={therapist.displayName}
+              // cover={<img alt="example" src={therapist.photoURL} />}
+              cover={
+                <iframe
+                  // width="1280"
+                  height="200"
+                  src="https://www.youtube.com/embed/kayOhGRcNt4"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              }
+            >
+              <p>{therapist.description}</p>
+              <Button block type="primary" onClick={() => goBook(therapist)}>
+                Select me
+              </Button>
+            </Card>
           </List.Item>
         )}
       />

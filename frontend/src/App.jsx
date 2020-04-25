@@ -14,29 +14,36 @@ import Account from './components/account/Account';
 import { loginUser, isUserLoggedIn, getUserBearerToken } from './services/user/userService';
 import ProtectedRoute from './components/protectedroute/ProtectedRoute';
 import { render } from 'react-dom';
+import Book from './components/book/book';
+import Slot from './components/slot/slot';
 
 class App extends Component {
   state = {
     isAuthenticated: false,
-    isLoading: true,
+    isLoading: true
   };
 
-  async componentDidMount() {
-    // const user = await loginUser('me@johntan.com', 'abc123');
-    // const token = await getUserBearerToken();
-    const isLoggedIn = await isUserLoggedIn();
+  componentDidMount() {
+    // TODO remove this timer and use context instead
+    this.interval = setInterval(async () => {
+      // const user = await loginUser('me@johntan.com', 'abc123');
+      // const token = await getUserBearerToken();
+      const isLoggedIn = await isUserLoggedIn();
 
-    if (isLoggedIn) {
-      this.setState({ isAuthenticated: true, isLoading: false });
-    } else {
-      this.setState({ isLoading: false });
-    }
+      if (isLoggedIn) {
+        this.setState({ isAuthenticated: true, isLoading: false });
+      } else {
+        this.setState({ isLoading: false });
+      }
+    }, 2000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
     const { isAuthenticated, isLoading } = this.state;
-
-    console.log(isAuthenticated);
 
     return (
       <Router>
@@ -55,6 +62,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route path="/signup" component={Signup} />
+            <Route path="/book" component={Book} />
+            <Route path="/bookslot" component={Slot} />
             <Route path="/signin" component={Signin} />
             <Route path="/forgot" component={Forgot} />
             <Route path="/about" component={About} />

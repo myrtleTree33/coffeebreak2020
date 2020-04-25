@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 
 import './Signin.css';
-import { loginUser } from '../../services/user/userService';
+import { loginUser, isUserLoggedIn } from '../../services/user/userService';
 
 const Singin = () => {
   const history = useHistory();

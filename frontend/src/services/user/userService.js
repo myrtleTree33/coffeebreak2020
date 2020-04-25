@@ -32,19 +32,22 @@ export const getUserBearerTokenRaw = async () => {
 };
 
 export const getUserBearerToken = async () => {
-  let token = window.localStorage.getItem('token');
-  if (!token || token === 'null') {
-    token = await getUserBearerTokenRaw();
-    if (!token) {
-      window.localStorage.removeItem('token');
-    }
-    window.localStorage.setItem('token', token);
-  }
+  // let token = window.localStorage.getItem('token');
+  // if (!token || token === 'null') {
+  const token = await getUserBearerTokenRaw();
+  // if (!token) {
+  // window.localStorage.removeItem('token');
+  // }
+  // window.localStorage.setItem('token', token);
+  // }
 
-  return token;
+  return Promise.resolve(token);
 };
 
-export const isUserLoggedIn = async () => Boolean(await getUserBearerToken());
+export const isUserLoggedIn = async () => {
+  const token = await getUserBearerToken();
+  return Promise.resolve(Boolean(token));
+};
 
 export const loginUser = async (email, password) => {
   try {

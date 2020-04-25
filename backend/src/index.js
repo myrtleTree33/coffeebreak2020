@@ -19,7 +19,7 @@ const corsOptions = {
 
 const app = express();
 
-initDb(MONGO_URI);
+// initDb(MONGO_URI);
 
 // middleware
 app.use(loggingMiddleware());
