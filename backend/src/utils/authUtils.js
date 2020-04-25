@@ -1,9 +1,10 @@
-import { firebaseService } from '../services/firebase-service';
+import firebaseService from '../services/firebase-service';
 import { logger } from './logger';
 
 const getAuthToken = (req, res, next) => {
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-    req.authToken = req.headers.authorization.split(' ')[1];
+    const authToken = req.headers.authorization.split(' ')[1];
+    req.authToken = authToken;
   } else {
     req.authToken = null;
   }
@@ -19,7 +20,6 @@ export const checkIfAuthenticated = (req, res, next) => {
       req.authId = userInfo.uid;
       return next();
     } catch (e) {
-      a;
       return res.status(401).send({ error: 'You are not authorized to make this request' });
     }
   });

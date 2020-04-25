@@ -1,11 +1,11 @@
+import firebaseAdmin from 'firebase-admin';
+
 import { logger } from '../utils/logger';
 
 const { FIREBASE_APP_CREDENTIALS_JSON, FIREBASE_APP_URL } = process.env;
 
 const initFirebase = (serviceAccountKeyJsonStr, databaseURL) => {
   try {
-    const firebaseAdmin = require('firebase-admin');
-
     const serviceAccount = JSON.parse(serviceAccountKeyJsonStr);
 
     firebaseAdmin.initializeApp({
@@ -22,4 +22,6 @@ const initFirebase = (serviceAccountKeyJsonStr, databaseURL) => {
   }
 };
 
-export const firebaseService = initFirebase(FIREBASE_APP_CREDENTIALS_JSON, FIREBASE_APP_URL);
+const firebaseService = initFirebase(FIREBASE_APP_CREDENTIALS_JSON, FIREBASE_APP_URL);
+
+export default firebaseService;
