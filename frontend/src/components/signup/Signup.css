@@ -1,0 +1,12 @@
+.signup-form {
+  max-width: 300px;
+}
+.signup-form-forgot {
+  float: right;
+}
+.ant-col-rtl .signup-form-forgot {
+  float: left;
+}
+.signup-form-button {
+  width: 100%;
+}
